@@ -52,16 +52,16 @@
 
     <div id="login-modal" class="login-modal">
       <span onclick="toggleLoginModal()" class="close" title="Close Modal">&times;</span>
-      <form class="login-modal-content animate" method="post">
+      <form id="login-form" form class="login-modal-content animate" method="post" action="php/login.php">
         <div class="title">
           <p>Se connecter</p>
         </div>
 
         <div class="container">
           <label for="uname"><b>Pseudo</b></label>
-          <input type="text" placeholder="Pseudo" name="username" required>
+          <input type="text" placeholder="Pseudo" name="username">
           <label for="psw"><b>Mot de passe</b></label>
-          <input type="password" placeholder="Mot de passe" name="password" required>
+          <input type="password" placeholder="Mot de passe" name="password">
           <button type="submit">Connexion</button>
           <label>
             <input type="checkbox" checked="checked" name="remember"> Se souvenir de moi
@@ -70,7 +70,39 @@
 
         <div class="container">
           <a class= "psw" href="#">Mot de passe oublié?</a>
-          <a class= "createaccount" href="#">Créer un compte</a>
+          <a class="createaccount" href="#" onclick="switchToSignup()">Créer un compte</a>
+        </div>
+      </form>
+    </div>
+
+    <div id="signup-modal" class="login-modal">
+      <span onclick="toggleSignupModal()" class="close" title="Close Modal">&times;</span>
+      <form id="signup-form" form class="login-modal-content animate" method="post" action="php/register.php" enctype="multipart/form-data">
+        <div class="title">
+          <p>Créer un compte</p>
+        </div>
+
+        <div class="container">
+          <label for="new-username"><b>Pseudo</b></label>
+          <input type="text" placeholder="Pseudo" name="new-username">
+
+          <label for="new-email"><b>Email</b></label>
+          <input type="email" placeholder="Email" name="new-email">
+
+          <label for="new-password"><b>Mot de passe</b></label>
+          <input type="password" placeholder="Mot de passe" name="new-password">
+
+          <label for="confirm-password"><b>Confirmer mot de passe</b></label>
+          <input type="password" placeholder="Confirmer le mot de passe" name="confirm-password">
+
+          <label for="profile-picture"><b>Photo de profil</b></label>
+          <input type="file" name="profile-picture" accept="image/*">
+
+          <button type="submit">Créer mon compte</button>
+        </div>
+
+        <div class="container">
+          <a class="psw" href="#" onclick="switchToLogin()">Déjà un compte ? Se connecter</a>
         </div>
       </form>
     </div>

@@ -34,15 +34,39 @@ function toggleLoginModal() {
 
 // Fermeture des modals lorsque l'utilisateur clique en dehors d'elles
 window.onclick = function (event) {
-  // Si l'utilisateur clique sur la modal de connexion, on la ferme
   if (event.target === loginModal) {
     loginModal.style.display = 'none';
   }
-  // Si l'utilisateur clique sur la modal d'image, on la ferme
+  if (event.target === signupModal) {
+    signupModal.style.display = 'none';
+  }
   if (event.target === modal) {
     modal.style.display = "none";
   }
 };
+
+let signupModal = document.querySelector('#signup-modal');
+
+// Fonction pour ouvrir/fermer la modal Créer un compte
+function toggleSignupModal() {
+  if (signupModal.style.display === 'block') {
+    signupModal.style.display = 'none';
+  } else {
+    signupModal.style.display = 'block';
+  }
+}
+
+// Switch du login vers signup
+function switchToSignup() {
+  loginModal.style.display = 'none';
+  signupModal.style.display = 'block';
+}
+
+// Switch du signup vers login
+function switchToLogin() {
+  signupModal.style.display = 'none';
+  loginModal.style.display = 'block';
+}
 
 // Fonction pour activer/désactiver le mode sombre
 function darkMode() {
@@ -56,6 +80,7 @@ window.onscroll = () =>{
    menuBtn.classList.remove('fa-times');
    navbar.classList.remove('active');
    loginModal.style.display = 'none';
+   signupModal.style.display = 'none';
    modal.style.display = "none";
 
    // Si le scroll dépasse 650px, on affiche la navigation en haut de la page
@@ -147,4 +172,85 @@ var swiper = new Swiper(".mySwiper", {
       document.getElementById('card-name').textContent = cardName;
     },
   },
+});
+
+// Gère la soumission du formulaire de connexion
+document.querySelector('#login-form').addEventListener('submit', function(e) {
+    e.preventDefault(); // Empêche la page de recharger
+
+    // Récupère les valeurs des inputs
+    const username = this.querySelector('input[name="username"]').value.trim();
+    const password = this.querySelector('input[name="password"]').value.trim();
+
+    // Petit check rapide : pas de champ vide
+    if (!username || !password) {
+        alert("Tous les champs doivent être remplis.");
+        return;
+    }
+
+    // Prépare les données à envoyer
+    const formData = new FormData();
+    formData.append("username", username);
+    formData.append("password", password);
+
+    // Envoie la requête POST vers le serveur PHP
+    fetch('php/login.php', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json()) // Attend une réponse JSON
+    .then(data => {
+        if (data.success) {
+            // Connexion réussie, on recharge la page ou redirige
+            window.location.reload();
+        } else {
+            // Affiche le message d’erreur renvoyé par le serveur
+            alert(data.message);
+        }
+    })
+    .catch(error => {
+        // Si le serveur crash ou pb connexion
+        console.error('Erreur lors de la connexion:', error);
+        alert('Une erreur est survenue.');
+    });
+});
+
+// Gère la soumission du formulaire d’inscription
+document.querySelector('#signup-form').addEventListener('submit', function(e) {
+    e.preventDefault(); // Empêche la page de recharger
+
+    // Récupère toutes les données du formulaire
+    const formData = new FormData(this);
+
+    // Vérifie côté client si les mots de passe matchent
+    const password = formData.get("new-password");
+    const confirmPassword = formData.get("confirm-password");
+
+    if (password !== confirmPassword) {
+        alert("Les mots de passe ne correspondent pas.");
+        return;
+    }
+
+    // Envoie des données vers register.php
+    fetch('php/register.php', {
+        method: 'POST',
+        body: formData
+    })
+    .then(res => res.json()) // Réponse attendue : JSON
+    .then(data => {
+        if (data.success) {
+            // Inscription réussie, on ferme la modal d’inscription et on ouvre celle de login
+            alert("Inscription réussie !");
+            signupModal.style.display = 'none';
+            loginModal.style.display = 'block';
+        } else {
+            // Affiche le message d’erreur envoyé par PHP
+            alert(data.message);
+        }
+    })
+    .catch(error => {
+        // Si le serveur crash ou pb connexion
+        console.error('Erreur lors de l’inscription:', error);
+        alert('Une erreur est survenue.');
+    });
 });
