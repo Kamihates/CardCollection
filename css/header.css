@@ -57,7 +57,6 @@ body{
 .btn:hover {
   background: var(--white);
   color: var(--red);
-  border: 2px solid var(--red);
 }
 
 .heading{
@@ -142,6 +141,36 @@ input[type=text], input[type=password], input[type=email] {
   cursor: pointer;
 }
 
+.profile-pic {
+  height: 3.5rem;
+    width: 3.5rem;
+    border-radius:50%;
+    cursor: pointer;
+    vertical-align: middle;
+    margin-left: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+#profile-modal .login-modal-content {
+  padding: 2rem;
+  font-size: 2rem; /* Texte plus grand */
+}
+
+#profile-modal .container p {
+  font-size: 2.4rem;
+  margin: 1.5rem 0;
+  font-weight: bold;
+}
+
+/* Agrandir la photo de profil dans la modale */
+#profile-modal .profile-pic {
+  width: 120px; /* taille plus grande */
+  height: 120px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 3px solid var(--white);
+}
+
 #login-btn:hover {
   color: var(--red);
 }
@@ -191,7 +220,7 @@ input[type=text], input[type=password], input[type=email] {
 }
 
 .login-modal .container {
-  padding: 16px;
+  padding: 23px;
 }
 
 .login-modal .container label {

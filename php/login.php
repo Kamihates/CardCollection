@@ -1,6 +1,4 @@
 <?php
-// Démarre une session pour pouvoir stocker des infos de l'utilisateur
-session_start();
 
 // Inclusion du fichier de connexion à la base de données
 require_once 'connexion.php';
@@ -24,13 +22,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Prépare une requête sécurisée pour récupérer l'utilisateur par son nom
     $stmt = $pdo->prepare("SELECT * FROM users WHERE username = :username");
     $stmt->execute(['username' => $username]);
-    $user = $stmt->fetch(PDO::FETCH_ASSOC); // Récupère le résultat en tableau associatif
+    $user = $stmt->fetch(PDO::FETCH_ASSOC); // Récupère le résultat en tableau 
 
     // Si un utilisateur est trouvé et que le mot de passe correspond
     if ($user && password_verify($password, $user['password'])) {
         // Stocke les infos utilisateur dans la session
         $_SESSION['user_id'] = $user['id'];
         $_SESSION['username'] = $user['username'];
+        $_SESSION['profile_picture'] = $user['profile_picture'];
 
         // Renvoie un message de succès
         echo json_encode(['success' => true, 'message' => 'Connexion réussie !']);

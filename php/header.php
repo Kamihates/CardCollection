@@ -1,3 +1,5 @@
+<?php require_once 'connexion.php'; ?>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -47,7 +49,16 @@
       <a id="dark-mode" onclick="darkMode()" title="darkMode" class="fas fa-moon"></a>
       <a id="music-btn" title="music" class="fas fa-music"></a>
       <audio loop autoplay="true" id="son1" src="../musics/music-navbar.mp3"></audio>
-      <a id="login-btn" onclick="toggleLoginModal()" title="Login" class="fas fa-sign-in"></a>
+      <?php if (isset($_SESSION['user_id']))
+      {
+        $profilePic = isset($_SESSION['profile_picture']) ? $_SESSION['profile_picture'] : '../images/default-profile.png';
+        echo "<img src='$profilePic' alt='Photo de profil' class='profile-pic' onclick='toggleProfileModal()'>";
+      }
+      else
+      {
+              echo "<a id='login-btn' onclick='toggleLoginModal()' title='Login' class='fas fa-sign-in'></a>";
+      }
+      ?>
     </div>
 
     <div id="login-modal" class="login-modal">
@@ -103,6 +114,52 @@
 
         <div class="container">
           <a class="psw" href="#" onclick="switchToLogin()">Déjà un compte ? Se connecter</a>
+        </div>
+      </form>
+    </div>
+
+    <div id="profile-modal" class="login-modal">
+      <span onclick="toggleProfileModal()" class="close" title="Close Modal">&times;</span>
+      <div class="login-modal-content animate">
+        <div class="container" style="text-align:center;">
+          <?php if (isset($_SESSION['user_id'])): ?>
+            <img src="<?php echo isset($_SESSION['profile_picture']) ? $_SESSION['profile_picture'] : '../images/default-profile.png'; ?>" alt="Photo de profil" class="profile-pic">
+            <p><?php echo $_SESSION['username']; ?></p>
+              <a href="javascript:void(0)" class="btn" onclick="logoutUser()">Déconnexion</a>
+              <a href="javascript:void(0)" class="btn" onclick="toggleEditModal()">Modifier mon profil</a>
+              <a href="javascript:void(0)" class="btn" onclick="deleteAccount()
+
+
+
+
+
+              ">Supprimer mon compte</a>
+          <?php endif; ?>
+        </div>
+      </div>
+    </div>
+
+    <div id="edit-modal" class="login-modal">
+      <span onclick="toggleEditModal()" class="close" title="Fermer">&times;</span>
+      <form id="edit-form" form class="login-modal-content animate" method="post" action="php/profile.php" enctype="multipart/form-data">
+        <div class="title">
+          <p>Modifier mon profil</p>
+        </div>
+
+        <div class="container">
+          <label for="edit-username"><b>Nouveau pseudo</b></label>
+          <input type="text" name="edit-username" placeholder="Nouveau pseudo" value="<?php echo $_SESSION['username']; ?>">
+
+          <label for="edit-password"><b>Nouveau mot de passe</b></label>
+          <input type="password" name="edit-password" placeholder="Nouveau mot de passe">
+
+          <label for="confirm-edit-password"><b>Confirmer mot de passe</b></label>
+          <input type="password" name="confirm-edit-password" placeholder="Confirmer le mot de passe">
+
+          <label for="edit-profile-picture"><b>Nouvel avatar</b></label>
+          <input type="file" name="edit-profile-picture" accept="image/*">
+
+          <button type="submit">Confirmer les modifications</button>
         </div>
       </form>
     </div>

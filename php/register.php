@@ -1,6 +1,4 @@
 <?php
-// Démarre une session pour pouvoir stocker des infos de l'utilisateur
-session_start();
 
 // Inclusion du fichier de connexion à la base de données
 require_once 'connexion.php';
@@ -46,7 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Gestion de l’upload de la photo de profil
     $profilePicture = $_FILES['profile-picture'];
 
-    // Si une erreur est survenue pendant l’upload (par exemple fichier corrompu)
+    // Si une erreur est survenue pendant l’upload
     if ($profilePicture['error'] !== 0) {
         echo json_encode(['success' => false, 'message' => 'Erreur lors du téléchargement de l’image.']);
         exit();

@@ -1,5 +1,11 @@
 <?php
 
+// Démarre une session pour pouvoir stocker des infos de l'utilisateur
+if (session_status() == PHP_SESSION_NONE)
+{
+  session_start();  
+}
+
 $host = 'localhost';
 $dbname = 'connexion';
 $port = 3306;
