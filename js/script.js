@@ -34,6 +34,16 @@ function toggleSignupModal() { signupModal.style.display = signupModal.style.dis
 function toggleProfileModal() { profileModal.style.display = profileModal.style.display === 'block' ? 'none' : 'block'; }
 function toggleEditModal() { editModal.style.display = editModal.style.display === 'block' ? 'none' : 'block'; }
 
+function switchToSignup() {
+    loginModal.style.display = 'none';
+    signupModal.style.display = 'block';
+}
+
+function switchToLogin() {
+    signupModal.style.display = 'none';
+    loginModal.style.display = 'block';
+}
+
 // Fonction pour activer/désactiver le mode sombre
 function darkMode() {
     document.body.classList.toggle("dark-mode");
